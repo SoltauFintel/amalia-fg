@@ -7,7 +7,7 @@ Output are src/main/resources/template/*filename*.html and formular/*filename*_c
 
 ## command file content:
 
-indent: *indent*
+indent: *indent (default is 2)*
 
 version: *(nothing)*
 
