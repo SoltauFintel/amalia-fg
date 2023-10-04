@@ -175,7 +175,7 @@ public class FormularGeneratorMain {
       template += "                <div class=\"form-group\">\r\n"//
                 + "                    <label for=\"" + id + "\" class=\"col-lg-" + indent + " control-label\">" + flu(id) + "</label>\r\n"//
                 + "                    <div class=\"col-lg-3\">\r\n"//
-                + "                        <textarea class=\"form-control\" rows=\"4\" id=\"" + id + "\" name=\"" + id + ">" + (edit ? "{{" + id + "}}" : "") + "</textarea>\r\n"//
+                + "                        <textarea class=\"form-control\" rows=\"4\" id=\"" + id + "\" name=\"" + id + "\">" + (edit ? "{{" + id + "}}" : "") + "</textarea>\r\n"//
                 + "                    </div>\r\n"//
                 + "                </div>\r\n";
     }
