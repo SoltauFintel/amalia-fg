@@ -13,6 +13,7 @@ public class FormularGeneratorMain {
     private String putCode;
     private String setCode;
     private boolean edit;
+    private boolean mMode = false;
     
     public static void main(String[] args) throws Exception {
         System.out.println("fg - Amalia formular generator\r\n");
@@ -22,6 +23,10 @@ public class FormularGeneratorMain {
 
     public void generate(String[] args) throws IOException {
         for (String arg : args) {
+            if ("m".equals(arg)) {
+                mMode = true;
+                continue;
+            }
             indent = 2;
             cancelLink = "";
             template = "";
@@ -54,6 +59,9 @@ public class FormularGeneratorMain {
         } else if (q.contains("add") || q.contains("create")) {
             titel = "Neues X eingeben";
         }
+        if (mMode) {
+            titel = "{{header}}";
+        }
 
         if (edit) {
             putCode += "    put(\"id\", esc(o.getId()));\r\n";
@@ -77,11 +85,17 @@ public class FormularGeneratorMain {
             verteiler(li, re);
         }
 
+        String save = "Speichern";
+        String cancel = "Abbruch";
+        if (mMode) {
+            save = "{{N.save}}";
+            cancel = "{{N.cancel}}";
+        }
         template += "\r\n";
         template += "                <div class=\"form-group\">\r\n"//
-                + "                    <div class=\"col-lg-offset-2 col-lg-5\">\r\n"//
-                + "                        <button type=\"submit\" class=\"btn btn-primary br\">Speichern</button>\r\n"//
-                + "                        <a href=\"" + cancelLink + "\" class=\"btn btn-default\">Abbruch</a>\r\n"//
+                + "                    <div class=\"col-lg-offset-" + indent + " col-lg-5\">\r\n"//
+                + "                        <button type=\"submit\" class=\"btn btn-primary br\">" + save + "</button>\r\n"//
+                + "                        <a href=\"" + cancelLink + "\" class=\"btn btn-default\">" + cancel + "</a>\r\n"//
                 + "                    </div>\r\n"//
                 + "                </div>\r\n"//
                 + "            </fieldset>\r\n"//
