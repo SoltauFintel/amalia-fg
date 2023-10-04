@@ -14,6 +14,7 @@ public class FormularGeneratorMain {
     private String setCode;
     private boolean edit;
     private boolean mMode = false;
+    private String var = "o";
     
     public static void main(String[] args) throws Exception {
         System.out.println("fg - Amalia formular generator\r\n");
@@ -119,21 +120,24 @@ public class FormularGeneratorMain {
 
     private void verteiler(String li, String re) {
         switch (li) {
+        case "var":
+            var = re;
+            break;
         case "indent":
             indent = Integer.parseInt(re);
             break;
         case "t":
             textfield(re);
-            setCode += "    o.set" + flu(re) + "(ctx.formParam(\"" + re + "\"));\r\n";
+            setCode += "    " + var + ".set" + flu(re) + "(ctx.formParam(\"" + re + "\"));\r\n";
             if (edit) {
-                putCode += "    put(\"" + re + "\", esc(o.get" + flu(re) + "()));\r\n";
+                putCode += "    put(\"" + re + "\", esc(" + var + ".get" + flu(re) + "()));\r\n";
             }
             break;
         case "c":
             combobox(re);
-            setCode += "    o.set" + flu(re) + "(ctx.formParam(\"" + re + "\"));\r\n";
+            setCode += "    " + var + ".set" + flu(re) + "(ctx.formParam(\"" + re + "\"));\r\n";
             putCode += "    List<String> " + re + "s = new ArrayList<>();\r\n";
-            String sel = "o.get" + flu(re) + "()";
+            String sel = var + ".get" + flu(re) + "()";
             if (!edit) {
                 sel = "\"\"";
             }
@@ -141,18 +145,18 @@ public class FormularGeneratorMain {
             break;
         case "k":
             checkbox(re);
-            setCode += "    o.set" + flu(re) + "(\"on\".equals(ctx.formParam(\"" + re + "\")));\r\n";
+            setCode += "    " + var + ".set" + flu(re) + "(\"on\".equals(ctx.formParam(\"" + re + "\")));\r\n";
             if (edit) {
-                putCode += "    put(\"" + re + "\", o.is" + flu(re) + "());\r\n";
+                putCode += "    put(\"" + re + "\", " + var + ".is" + flu(re) + "());\r\n";
             } else {
                 putCode += "    put(\"" + re + "\", false);\r\n";
             }
             break;
         case "ta":
             textarea(re);
-            setCode += "    o.set" + flu(re) + "(ctx.formParam(\"" + re + "\"));\r\n";
+            setCode += "    " + var + ".set" + flu(re) + "(ctx.formParam(\"" + re + "\"));\r\n";
             if (edit) {
-                putCode += "    put(\"" + re + "\", esc(o.get" + flu(re) + "()));\r\n";
+                putCode += "    put(\"" + re + "\", esc(" + var + ".get" + flu(re) + "()));\r\n";
             }
             break;
         case "e":
@@ -161,8 +165,8 @@ public class FormularGeneratorMain {
         case "version":
             if (edit) {
                 template +="                <input type=\"hidden\" name=\"version\" value=\"{{version}}\">\r\n";
-                setCode += "    o.setVersion(Integer.parseInt(ctx.formParam(\"version\")));\r\n";
-                putCode += "    putInt(\"version\", o.getVersion());\r\n";
+                setCode += "    " + var + ".setVersion(Integer.parseInt(ctx.formParam(\"version\")));\r\n";
+                putCode += "    putInt(\"version\", " + var + ".getVersion());\r\n";
             }
             break;
         case "ok": // ok link (action)
